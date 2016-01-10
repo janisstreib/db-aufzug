@@ -35,26 +35,18 @@ public class Updater implements Runnable {
 					lastImport = System.currentTimeMillis();
 					try (BufferedReader read = new BufferedReader(
 							new InputStreamReader(new FileInputStream(
-									stationFile)));) {
+									stationFile), "ISO-8859-1"));) {
 						String tmp;
 						read.readLine(); // Skip first line
 						while ((tmp = read.readLine()) != null) {
 							String[] elements = tmp.split(";");
 							boolean done = false;
 							while (!done) {
-								try {
-									new Station(Long.parseLong(elements[2]),
-											elements[3], elements[0],
-											elements[11].equals("ja"),
-											elements[12].equals("ja"));
-									done = true;
-									Thread.sleep(1000);
-								} catch (IOException e) {
-									System.out.println("Wait..."
-											+ e.getMessage());
-
-									Thread.sleep(1000);
-								}
+								new Station(Long.parseLong(elements[2]),
+										elements[3], elements[0],
+										elements[11].equals("ja"),
+										elements[12].equals("ja"));
+								done = true;
 							}
 						}
 						System.out.println("Station update finished.");

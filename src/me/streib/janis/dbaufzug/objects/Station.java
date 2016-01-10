@@ -1,16 +1,13 @@
 package me.streib.janis.dbaufzug.objects;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import me.streib.janis.dbaufzug.DatabaseConnection;
 
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 public class Station {
 
@@ -47,24 +44,26 @@ public class Station {
 		prep.setString(3, bundesland);
 		prep.setBoolean(4, fern);
 		prep.setBoolean(5, nah);
-		try {
-			HttpURLConnection stationCount = (HttpURLConnection) new URL(
-					"https://adam.noncd.db.de/api/v1.0/stations/"
-							+ stationNumber).openConnection();
-			this.facilityCount = new JSONObject(new JSONTokener(
-					stationCount.getInputStream())).getJSONArray("facilities")
-					.length();
-			prep.setInt(7, facilityCount);
-			prep.setInt(6, facilityCount);
-		} catch (IOException e) {
-			System.out.println("Wait at " + stationNumber + "... "
-					+ e.getMessage());
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-		}
+		// try {
+		// HttpURLConnection stationCount = (HttpURLConnection) new URL(
+		// "https://adam.noncd.db.de/api/v1.0/stations/"
+		// + stationNumber).openConnection();
+		// this.facilityCount = new JSONObject(new JSONTokener(
+		// stationCount.getInputStream())).getJSONArray("facilities")
+		// .length();
+		// prep.setInt(7, facilityCount);
+		// prep.setInt(6, facilityCount);
+		// } catch (IOException e) {
+		// System.out.println("Wait at " + stationNumber + "... "
+		// + e.getMessage());
+		// try {
+		// Thread.sleep(1000);
+		// } catch (InterruptedException e1) {
+		// e1.printStackTrace();
+		// }
+		// }
+		prep.setInt(7, 0);
+		prep.setInt(6, 0);
 		prep.execute();
 	}
 
