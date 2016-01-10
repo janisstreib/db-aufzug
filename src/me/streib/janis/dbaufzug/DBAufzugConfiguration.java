@@ -8,11 +8,11 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class SensNetNodeConfiguration {
+public class DBAufzugConfiguration {
 	private Properties p;
-	private static SensNetNodeConfiguration instance;
+	private static DBAufzugConfiguration instance;
 
-	protected SensNetNodeConfiguration(InputStream in) throws IOException,
+	protected DBAufzugConfiguration(InputStream in) throws IOException,
 			SQLException {
 		this.p = new Properties();
 		p.load(in);
@@ -20,41 +20,39 @@ public class SensNetNodeConfiguration {
 	}
 
 	public int getPort() {
-		return Integer.parseInt(p.getProperty("node.port"));
+		return Integer.parseInt(p.getProperty("dbaufzug.port"));
 	}
 
 	public String getHostName() {
-		return p.getProperty("node.name");
+		return p.getProperty("dbaufzug.name");
 	}
 
 	protected String getDB() {
-		return p.getProperty("node.db");
+		return p.getProperty("dbaufzug.db");
 	}
 
 	protected String getDBUser() {
-		return p.getProperty("node.db.user");
+		return p.getProperty("dbaufzug.db.user");
 	}
 
 	protected String getDBPW() {
-		return p.getProperty("node.db.pw");
+		return p.getProperty("dbaufzug.db.pw");
 	}
 
 	protected String getJDBCDriver() {
-		return p.getProperty("node.db.driver");
+		return p.getProperty("dbaufzug.db.driver");
 	}
 
-
-	public static SensNetNodeConfiguration getInstance() {
+	public static DBAufzugConfiguration getInstance() {
 		return instance;
 	}
-
 
 	private void store() {
 		File f = new File("conf/");
 		if (!f.exists()) {
 			f.mkdir();
 		}
-		f = new File("conf/node.properties");
+		f = new File("conf/dbaufzug.properties");
 		try {
 			p.store(new FileOutputStream(f), "");
 		} catch (FileNotFoundException e) {
@@ -66,10 +64,10 @@ public class SensNetNodeConfiguration {
 	}
 
 	public String getMapSource() {
-		return p.getProperty("node.mapsource");
+		return p.getProperty("dbaufzug.mapsource");
 	}
 
 	public boolean isHSTSEnabled() {
-		return Boolean.getBoolean(p.getProperty("node.hsts", "true"));
+		return Boolean.getBoolean(p.getProperty("dbaufzug.hsts", "true"));
 	}
 }

@@ -19,7 +19,7 @@ import java.util.logging.StreamHandler;
 
 public class DatabaseConnection {
     private Connection connection;
-    private static SensNetNodeConfiguration config;
+    private static DBAufzugConfiguration config;
     private HashMap<String, PreparedStatement> statements = new HashMap<String, PreparedStatement>();
     private long lastAction = System.currentTimeMillis();
     private Statement adHoc;
@@ -54,7 +54,7 @@ public class DatabaseConnection {
         tryConnect();
     }
 
-    public static void init(SensNetNodeConfiguration conf) {
+    public static void init(DBAufzugConfiguration conf) {
         config = conf;
     }
 

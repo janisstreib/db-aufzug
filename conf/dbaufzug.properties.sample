@@ -1,15 +1,11 @@
 node.name = 0.0.0.0
 node.port = 8081
 
-#scqu.db = jdbc:sqlite:sciencequiz.db
-#scqu.db.user = 
-#scqu.db.pw =
-#scqu.db.driver = org.sqlite.JDBC
-
+# Sampledata. Please change.
 node.db.driver=com.mysql.jdbc.Driver
-node.db=jdbs:mysql://172.0.0.1/dbaufzug
+node.db=jdbc:mysql://172.19.79.60/dbaufzug
 node.db.user=dbaufzug
-node.db.pw=
+node.db.pw=n5PSbzKma74XyNnd
 
 node.mapsource=https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
 node.hsts=false

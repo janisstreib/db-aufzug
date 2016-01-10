@@ -19,7 +19,7 @@ import org.cacert.gigi.output.template.Outputable;
 import org.cacert.gigi.output.template.Template;
 import org.json.JSONException;
 
-public class SensNetNode extends HttpServlet {
+public class DBAufzug extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Page mainPage = new MainPage();
 	private Template mainTemplate;
@@ -28,7 +28,8 @@ public class SensNetNode extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		mainTemplate = new Template(SensNetNode.class.getResource("Node.templ"));
+		mainTemplate = new Template(
+				DBAufzug.class.getResource("Dbaufzug.templ"));
 		mapping.put("/search", new Nominatim());
 	}
 
@@ -57,7 +58,7 @@ public class SensNetNode extends HttpServlet {
 			throws IOException, JSONException, SQLException {
 		final String pathInfo = req.getPathInfo();
 		resp.setContentType("text/html; charset=utf-8");
-		if (SensNetNodeConfiguration.getInstance().isHSTSEnabled()) {
+		if (DBAufzugConfiguration.getInstance().isHSTSEnabled()) {
 			resp.setHeader("Strict-Transport-Security", "max-age=" + 60 * 60
 					* 24 * 366 + "; preload");
 		}
@@ -96,7 +97,7 @@ public class SensNetNode extends HttpServlet {
 			vars.put("content", content);
 			vars.put("year", Calendar.getInstance().get(Calendar.YEAR));
 			vars.put("title", p.getName());
-			vars.put("mapsource", SensNetNodeConfiguration.getInstance()
+			vars.put("mapsource", DBAufzugConfiguration.getInstance()
 					.getMapSource());
 			mainTemplate.output(resp.getWriter(), vars);
 		} else if (post) {
