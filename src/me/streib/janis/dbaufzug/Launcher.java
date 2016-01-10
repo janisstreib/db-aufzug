@@ -16,6 +16,7 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
 public class Launcher {
 	public static void main(String[] args) throws Exception {
+		new Thread(new Updater(60 * 60 * 1000)).start();// hourly
 		SensNetNodeConfiguration conf;
 		if (args.length != 1) {
 			InputStream ins;
@@ -36,8 +37,7 @@ public class Launcher {
 		((QueuedThreadPool) s.getThreadPool()).setMaxThreads(20);
 		ServletContextHandler h = new ServletContextHandler(
 				ServletContextHandler.SESSIONS);
-		h.setInitParameter(SessionManager.__SessionCookieProperty,
-				"DB-Session");
+		h.setInitParameter(SessionManager.__SessionCookieProperty, "DB-Session");
 		h.addServlet(SensNetNode.class, "/*");
 		HandlerList hl = new HandlerList();
 		hl.setHandlers(new Handler[] { generateStaticContext(), h });

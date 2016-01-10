@@ -2,6 +2,7 @@ package me.streib.janis.dbaufzug;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.cacert.gigi.output.template.Outputable;
 import org.cacert.gigi.output.template.Template;
+import org.json.JSONException;
 
 public class SensNetNode extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,18 +32,26 @@ public class SensNetNode extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		handleRequest(req, resp, false);
+		try {
+			handleRequest(req, resp, false);
+		} catch (JSONException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		handleRequest(req, resp, true);
+		try {
+			handleRequest(req, resp, true);
+		} catch (JSONException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void handleRequest(final HttpServletRequest req,
 			final HttpServletResponse resp, final boolean post)
-			throws IOException {
+			throws IOException, JSONException, SQLException {
 		final String pathInfo = req.getPathInfo();
 		resp.setContentType("text/html; charset=utf-8");
 		if (SensNetNodeConfiguration.getInstance().isHSTSEnabled()) {
@@ -71,6 +81,10 @@ public class SensNetNode extends HttpServlet {
 							p.doGet(req, resp, vars);
 						}
 					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (JSONException e) {
+						e.printStackTrace();
+					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}

@@ -1,8 +1,7 @@
 package me.streib.janis.dbaufzug;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -14,28 +13,23 @@ import me.streib.janis.dbaufzug.objects.LocationLatLong;
 import me.streib.janis.dbaufzug.objects.State;
 
 import org.cacert.gigi.output.template.IterableDataset;
-import org.json.JSONArray;
-import org.json.JSONTokener;
+import org.json.JSONException;
 
 public class MainPage extends Page {
 
 	public MainPage() {
 		super("DB elevator map");
 	}
+
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp,
-			Map<String, Object> vars) throws IOException {
-		HttpURLConnection conn = (HttpURLConnection) new URL(
-				"https://adam.noncd.db.de/api/v1.0/facilities?type[]=ESCALATOR&type[]=ELEVATOR&state[]=ACTIVE&state[]=INACTIVE&state[]=UNKNOWN")
-				.openConnection();
-		conn.setDoInput(true);
-		JSONArray ar = new JSONArray(new JSONTokener(conn.getInputStream()));
-		LinkedList<Facility> facilities = new LinkedList<Facility>();
+			Map<String, Object> vars) throws IOException, JSONException,
+			SQLException {
+		LinkedList<Facility> facilities = Facility.getAllFacilities();
 		int up = 0;
-		for (int i = 0; i < ar.length(); i++) {
-			Facility fac = Facility.getFacilityByJSON(ar.getJSONObject(i));
-			facilities.add(fac);
-			if(fac.getState() == State.ACTIVE)
+		int facs = facilities.size();
+		for (Facility facility : facilities) {
+			if (facility.getState() == State.ACTIVE)
 				up++;
 		}
 		vars.put("facilities", new IterableDataset() {
@@ -43,7 +37,7 @@ public class MainPage extends Page {
 
 			@Override
 			public boolean next(Map<String, Object> vars) {
-				if (i + 1 >= ar.length())
+				if (facilities.isEmpty())
 					return false;
 				Facility fac = facilities.removeFirst();
 				vars.put("type", fac.getClass().getSimpleName());
@@ -56,9 +50,9 @@ public class MainPage extends Page {
 				return true;
 			}
 		});
-		
-		vars.put("percents", (ar.length()/100f)*up);
-		vars.put("amount", ar.length());
+
+		vars.put("percents", (facs / 100f) * up);
+		vars.put("amount", facs);
 		getDefaultTemplate().output(resp.getWriter(), vars);
 	}
 
