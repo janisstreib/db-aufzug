@@ -1,0 +1,71 @@
+<div class="container">
+<div id="avail" style="min-width: 310px; height: 400px; max-width: 100%; margin: 0 auto"></div>
+</div>
+<script>
+$(function () {
+    $('#avail').highcharts({
+        chart: {
+            type: 'area'
+        },
+        title: {
+            text: 'Verfügbarkeit der Einrichtungen Bundesweit'
+        },
+        subtitle: {
+            text: '<?=$curr_date?>, die letzen 24 Abfragen'
+        },
+        xAxis: {
+            categories: <?=$!avail_time?>,
+            tickmarkPlacement: 'on',
+            title: {
+                enabled: false
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'Prozent'
+            }
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f})<br/>',
+            shared: true
+        },
+        plotOptions: {
+            area: {
+                stacking: 'percent',
+                lineColor: '#ffffff',
+                lineWidth: 1,
+                marker: {
+                    lineWidth: 1,
+                    lineColor: '#ffffff'
+                }
+            }
+        },
+        series: [{
+        	color: '#417F34',
+            name: 'Aufzüge aktiv',
+            data: <?=$elev?>
+        }, {
+        	color: '#44557F',
+            name: 'Rolltreppen aktiv',
+            data: <?=$esc?>
+        }, {
+        	color: '#FF5449',
+            name: 'Aufzüge inaktiv',
+            data: <?=$elev_inact?>
+        }, {
+        	color: '#7F4844',
+            name: 'Rolltreppen inaktiv',
+            data: <?=$esc_inact?>
+        }
+        , {
+        	color: '#CCCCCA',
+            name: 'Aufzüge unbekannt',
+            data: <?=$elev_unknwon?>
+        }, {
+        	color: '#7F7F7E',
+            name: 'Rolltreppen unbekannt',
+            data: <?=$esc_unknown?>
+        }]
+    });
+});
+</script>
