@@ -1,4 +1,4 @@
-package me.streib.janis.dbaufzug;
+package me.streib.janis.dbaufzug.pages;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import me.streib.janis.dbaufzug.Page;
 
 import org.json.JSONArray;
 import org.json.JSONTokener;

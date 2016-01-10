@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import me.streib.janis.dbaufzug.pages.MainPage;
+import me.streib.janis.dbaufzug.pages.Nominatim;
+
 import org.cacert.gigi.output.template.Outputable;
 import org.cacert.gigi.output.template.Template;
 import org.json.JSONException;

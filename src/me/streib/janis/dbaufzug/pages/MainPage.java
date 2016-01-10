@@ -1,4 +1,4 @@
-package me.streib.janis.dbaufzug;
+package me.streib.janis.dbaufzug.pages;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import me.streib.janis.dbaufzug.Page;
 import me.streib.janis.dbaufzug.objects.Facility;
 import me.streib.janis.dbaufzug.objects.LocationLatLong;
 import me.streib.janis.dbaufzug.objects.State;
