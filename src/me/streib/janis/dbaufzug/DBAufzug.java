@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import me.streib.janis.dbaufzug.pages.MainPage;
 import me.streib.janis.dbaufzug.pages.Nominatim;
+import me.streib.janis.dbaufzug.pages.StatsPage;
 
 import org.cacert.gigi.output.template.Outputable;
 import org.cacert.gigi.output.template.Template;
@@ -31,6 +33,7 @@ public class DBAufzug extends HttpServlet {
 		mainTemplate = new Template(
 				DBAufzug.class.getResource("Dbaufzug.templ"));
 		mapping.put("/search", new Nominatim());
+		mapping.put("/stats", new StatsPage());
 	}
 
 	@Override
@@ -96,6 +99,7 @@ public class DBAufzug extends HttpServlet {
 			vars.put(p.getName(), "");
 			vars.put("content", content);
 			vars.put("year", Calendar.getInstance().get(Calendar.YEAR));
+			vars.put("curr_date", StatsPage.DE_FROMAT_DATE.format(new Date()));
 			vars.put("title", p.getName());
 			vars.put("mapsource", DBAufzugConfiguration.getInstance()
 					.getMapSource());

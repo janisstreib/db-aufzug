@@ -28,8 +28,9 @@ public class Updater implements Runnable {
 				conn.setDoInput(true);
 				JSONArray ar = new JSONArray(new JSONTokener(
 						conn.getInputStream()));
+				long time = System.currentTimeMillis();
 				for (int i = 0; i < ar.length(); i++) {
-					Facility.getFacilityByJSON(ar.getJSONObject(i));
+					Facility.getFacilityByJSON(ar.getJSONObject(i), time);
 				}
 				System.out.println("Database update completed sccuessfully.");
 				Thread.sleep(interval);

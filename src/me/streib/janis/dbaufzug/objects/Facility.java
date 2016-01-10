@@ -26,12 +26,12 @@ public abstract class Facility {
 		return res;
 	}
 
-	public static Facility getFacilityByJSON(JSONObject jsObject)
+	public static Facility getFacilityByJSON(JSONObject jsObject, long time)
 			throws SQLException {
 		if (jsObject.getString("type").equals("ELEVATOR"))
-			return new Elevator(jsObject);
+			return new Elevator(jsObject, time);
 		if (jsObject.getString("type").equals("ESCALATOR"))
-			return new Escalator(jsObject);
+			return new Escalator(jsObject, time);
 		return null;
 	}
 
@@ -41,7 +41,7 @@ public abstract class Facility {
 	private Station station;
 	private State state;
 
-	public Facility(JSONObject jsObject) throws SQLException {
+	public Facility(JSONObject jsObject, long time) throws SQLException {
 		equipmentNumber = jsObject.getLong("equipmentnumber");
 		if (!jsObject.isNull("description"))
 			description = jsObject.getString("description");
@@ -65,7 +65,7 @@ public abstract class Facility {
 		prep.execute();
 		prep = DatabaseConnection.getInstance().prepare(
 				"INSERT INTO stats SET time=?, facility=?, state=?");
-		prep.setLong(1, System.currentTimeMillis());
+		prep.setLong(1, time);
 		prep.setLong(2, equipmentNumber);
 		prep.setString(3, state.name());
 		prep.execute();

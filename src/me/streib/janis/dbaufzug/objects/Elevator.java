@@ -7,8 +7,8 @@ import org.json.JSONObject;
 
 public class Elevator extends Facility {
 
-	public Elevator(JSONObject jsObject) throws SQLException {
-		super(jsObject);
+	public Elevator(JSONObject jsObject, long time) throws SQLException {
+		super(jsObject, time);
 	}
 
 	public Elevator(ResultSet resultSet) throws SQLException {
