@@ -19,7 +19,7 @@ import org.json.JSONException;
 public class MainPage extends Page {
 
 	public MainPage() {
-		super("DB elevator map");
+		super("Karte");
 	}
 
 	@Override

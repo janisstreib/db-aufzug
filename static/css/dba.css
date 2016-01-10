@@ -2,6 +2,10 @@
 * {
 	font-family: 'Open Sans';
 }
+body {
+	padding-top: 51px;
+}
+
 .overlay {
 	position: absolute;
 
@@ -17,10 +21,12 @@
 	z-index: 1000;
 	padding: 30px;
 }
-
+.container:first-of-type {
+	margin-top: 15px;
+}
 #map {
-	position: relative; width : 100vw;
-	height: 100vh;
+	position: relative;
+	height: calc(100vh - 51px);
 	width: 100vw;
 }
 
@@ -46,10 +52,6 @@
 
 .mouse-click {
 	cursor: pointer;
-}
-
-.navbar-brand {
-	padding: 0 25px;
 }
 
 .timecontrol {
