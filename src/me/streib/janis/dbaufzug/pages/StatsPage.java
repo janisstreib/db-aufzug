@@ -9,12 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import me.streib.janis.dbaufzug.Page;
+import me.streib.janis.dbaufzug.pages.statistics.APIAvailibility;
 import me.streib.janis.dbaufzug.pages.statistics.Availibility;
 
 import org.json.JSONException;
 
 public class StatsPage extends Page {
 	private Availibility availStat = new Availibility();
+	private APIAvailibility apiStat = new APIAvailibility();
 
 	public static final SimpleDateFormat DE_FROMAT_DATE = new SimpleDateFormat(
 			"dd.MM.yyyy");
@@ -30,6 +32,7 @@ public class StatsPage extends Page {
 			Map<String, Object> vars) throws IOException, JSONException,
 			SQLException {
 		vars.put("availibility", availStat);
+		vars.put("apiavail", apiStat);
 		getDefaultTemplate().output(resp.getWriter(), vars);
 	}
 

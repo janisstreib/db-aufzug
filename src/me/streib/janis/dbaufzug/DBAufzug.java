@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import me.streib.janis.dbaufzug.pages.Accessibility;
 import me.streib.janis.dbaufzug.pages.MainPage;
 import me.streib.janis.dbaufzug.pages.Nominatim;
 import me.streib.janis.dbaufzug.pages.StatsPage;
@@ -34,6 +35,7 @@ public class DBAufzug extends HttpServlet {
 				DBAufzug.class.getResource("Dbaufzug.templ"));
 		mapping.put("/search", new Nominatim());
 		mapping.put("/stats", new StatsPage());
+		mapping.put("/accessibility", new Accessibility());
 	}
 
 	@Override

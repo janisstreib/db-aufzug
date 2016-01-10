@@ -1,0 +1,46 @@
+<div id="apiavail" style="min-width: 310px; height: 400px; max-width: 100%; margin: 0 auto"></div>
+
+<script>
+$(function () {
+    $('#apiavail').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'API-Ausbau'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'API-Ausbau',
+            colorByPoint: true,
+            data: [{
+                name: 'Haltepunkte mit API',
+                y: <?=$withapi?>
+            }, {
+                name: 'Haltepunkte ohne API',
+                y: <?=$withoutapi?>,
+                sliced: true,
+                selected: true
+            }]
+        }]
+    });
+});
+</script>
