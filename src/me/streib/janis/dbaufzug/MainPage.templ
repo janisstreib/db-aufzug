@@ -1,0 +1,71 @@
+<div class="overlay">
+<form onsubmit="return possub()">
+<div class="input-group">
+  <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>
+  <input type="text" class="form-control" placeholder="City name, postal code, ..." aria-describedby="basic-addon1" id="query">
+  <div class="input-group-btn">
+<input type="submit" class="btn btn-default" value="Search"/>
+</div>
+</div>
+</form>
+<h2>Active: <?=$percents?>% of <?=$amount?> facilities.</h2>
+</div>
+<div id="map" class="half"></div>
+<script src="static/js/leaflet.js"></script>
+<script>
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  }
+function possub() {
+$.get("/search?query="+$('#query').val(), function(data) {
+alert(data);
+});
+return false;
+}
+function getQueryVariable(variable) {
+  var query = window.location.search.substring(1);
+  var vars = query.split("&");
+  for (var i=0;i<vars.length;i++) {
+    var pair = vars[i].split("=");
+    if (pair[0] == variable) {
+      return pair[1];
+    }
+  } 
+  return null;
+}
+		var lat = 51;
+		var lng = 10;
+		var zoom = 5;
+		if(getQueryVariable("lat") != null && getQueryVariable("lng") != null && getQueryVariable("zero") != null) {
+			lat = getQueryVariable("lat");
+			lng = getQueryVariable("lng");
+			zoom = getQueryVariable("zoom");
+		}
+		var map = L.map('map').setView([lat, lng], zoom);
+		
+		var extendedIcons = L.Icon.Default;
+				
+		var unknown = new extendedIcons({iconUrl: '/static/js/images/unknown.png'}),
+		active = new extendedIcons({iconUrl: '/static/js/images/active.png'}),
+		inactive = new extendedIcons({iconUrl: '/static/js/images/inactive.png'});
+		L.tileLayer('<?=$mapsource?>', {
+			maxZoom: 19,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+		}).addTo(map);
+		<? foreach($facilities) { ?>
+		L.marker([<?=$lat?>, <?=$long?>], {icon: <?=$state?>}).addTo(map)
+			.bindPopup('<b><?=$type?> - <?=$state?></b><br/><?=$descr?>');
+			<? } ?>
+		
+		map.addEventListener('resize moveend', function updateUrl(e) {
+			window.history.pushState(null,"","/?lat="+map.getCenter().lat+"&lng="+map.getCenter().lng+"&zoom="+map.getZoom());
+			
+		});
+		getLocation();
+		function showPosition(position) {
+ map.panTo(new L.LatLng(osition.coords.latitude, position.coords.longitude));
+}
+	</script>
