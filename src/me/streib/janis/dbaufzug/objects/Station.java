@@ -20,7 +20,6 @@ public class Station {
 	private String bl;
 	private boolean fern;
 	private boolean nah;
-	private int facilityCount;
 
 	public Station(JSONObject jsObject) {
 		stationNumber = jsObject.getLong("stationnumber");
@@ -38,7 +37,7 @@ public class Station {
 		PreparedStatement prep = DatabaseConnection
 				.getInstance()
 				.prepare(
-						"INSERT INTO stations SET id=?, name=?, bl=?, fern=?, nah=?, facilityCount=? ON DUPLICATE KEY UPDATE facilityCount=?");
+						"INSERT IGNORE INTO stations SET id=?, name=?, bl=?, fern=?, nah=?");
 		prep.setLong(1, stationNumber);
 		prep.setString(2, name);
 		prep.setString(3, bundesland);
@@ -62,8 +61,6 @@ public class Station {
 		// e1.printStackTrace();
 		// }
 		// }
-		prep.setInt(7, 0);
-		prep.setInt(6, 0);
 		prep.execute();
 	}
 

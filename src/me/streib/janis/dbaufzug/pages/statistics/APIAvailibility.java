@@ -14,18 +14,18 @@ public class APIAvailibility extends StatisticOutputable {
 	public void output(PrintWriter out, Map<String, Object> vars) {
 		try {
 			PreparedStatement prep = DatabaseConnection.getInstance().prepare(
-					"SELECT COUNT(1) FROM stations WHERE facilityCount > 0");
+					"SELECT COUNT(DISTINCT station) FROM facilities");
 			ResultSet res = prep.executeQuery();
 			res.first();
 			int withAPI = res.getInt(1);
 			res.close();
 			prep = DatabaseConnection.getInstance().prepare(
-					"SELECT COUNT(1) FROM stations WHERE facilityCount = 0");
+					"SELECT COUNT(id) FROM stations");
 			res = prep.executeQuery();
 			res.first();
-			int withOutAPI = res.getInt(1);
+			int withoutAPI = res.getInt(1) - withAPI;
 			vars.put("withapi", withAPI);
-			vars.put("withoutapi", withOutAPI);
+			vars.put("withoutapi", withoutAPI);
 
 			getDefaultTemplate().output(out, vars);
 		} catch (SQLException e) {
