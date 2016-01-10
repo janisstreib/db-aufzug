@@ -7,6 +7,8 @@ jetty-servlet-**.jar
 jetty-util-**.jar
 servlet-api-**.jar
 
+org.json library
+
 =DB Stuff (tested with myslq-connector-java-5.1.31)=
 mysql-connector-java-**-bin.jar
 
