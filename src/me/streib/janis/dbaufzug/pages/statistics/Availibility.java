@@ -50,13 +50,14 @@ public class Availibility extends StatisticOutputable {
 				int unknownElev = 0;
 				elev.beforeFirst();
 				while (elev.next()) {
-					if (State.ACTIVE.name().equals(elev.getString("state")))
+					if (State.ACTIVE.name().equals(elev.getString("state"))) {
 						activElev = elev.getInt(2);
-					else if (State.INACTIVE.name().equals(
-							elev.getString("state")))
+					} else if (State.INACTIVE.name().equals(
+							elev.getString("state"))) {
 						inactiveElev = elev.getInt(2);
-					else
+					} else {
 						unknownElev = elev.getInt(2);
+					}
 				}
 				elevDataActive.put(activElev);
 				elevDataInactive.put(inactiveElev);
@@ -72,13 +73,14 @@ public class Availibility extends StatisticOutputable {
 				int unknownEsc = 0;
 				esc.beforeFirst();
 				while (esc.next()) {
-					if (State.ACTIVE.name().equals(esc.getString("state")))
+					if (State.ACTIVE.name().equals(esc.getString("state"))) {
 						activElev = esc.getInt(2);
-					else if (State.INACTIVE.name().equals(
-							esc.getString("state")))
+					} else if (State.INACTIVE.name().equals(
+							esc.getString("state"))) {
 						inactiveElev = esc.getInt(2);
-					else
+					} else {
 						unknownElev = esc.getInt(2);
+					}
 				}
 				escDataActive.put(activEsc);
 				escDataInactive.put(inactiveEsc);
@@ -88,17 +90,25 @@ public class Availibility extends StatisticOutputable {
 
 			}
 			times.close();
-			vars.put("avail_time", categories.toString());
-			vars.put("elev", elevDataActive.toString());
-			vars.put("esc", escDataActive.toString());
-			vars.put("elev_inact", elevDataInactive.toString());
-			vars.put("esc_inact", escDataInactive.toString());
-			vars.put("elev_unknwon", elevDataUnknown.toString());
-			vars.put("esc_unknown", escDataUnknown.toString());
+			vars.put("avail_time", flipArray(categories).toString());
+			vars.put("elev", flipArray(elevDataActive).toString());
+			vars.put("esc", flipArray(escDataActive).toString());
+			vars.put("elev_inact", flipArray(elevDataInactive).toString());
+			vars.put("esc_inact", flipArray(escDataInactive).toString());
+			vars.put("elev_unknwon", flipArray(elevDataUnknown).toString());
+			vars.put("esc_unknown", flipArray(escDataUnknown).toString());
 			getDefaultTemplate().output(out, vars);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static JSONArray flipArray(JSONArray in) {
+		JSONArray res = new JSONArray();
+		for (int i = in.length() - 1; i > 0; i--) {
+			res.put(in.get(i));
+		}
+		return res;
 	}
 
 }

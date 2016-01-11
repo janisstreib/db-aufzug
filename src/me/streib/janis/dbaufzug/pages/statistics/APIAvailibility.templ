@@ -10,7 +10,7 @@ $(function () {
             type: 'pie'
         },
         title: {
-            text: 'API-Ausbau'
+            text: 'Ausbau'
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -29,13 +29,13 @@ $(function () {
             }
         },
         series: [{
-            name: 'API-Ausbau',
+            name: 'Ausbau',
             colorByPoint: true,
             data: [{
-                name: 'Haltepunkte mit API',
+                name: 'Haltepunkte mit Rolltreppen und/oder Aufzügen',
                 y: <?=$withapi?>
             }, {
-                name: 'Haltepunkte ohne API',
+                name: 'Haltepunkte ohne API/ohne Rolltreppen und Aufzügen',
                 y: <?=$withoutapi?>,
                 sliced: true,
                 selected: true
