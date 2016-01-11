@@ -51,7 +51,7 @@ function getQueryVariable(variable) {
 		inactive = new extendedIcons({iconUrl: '/static/js/images/inactive.png'});
 		L.tileLayer('<?=$mapsource?>', {
 			maxZoom: 19,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, ' +
+			attribution: 'Station/Elevator data: Deutsche Bahn, CC-BY 4.0 | Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, ' +
 				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
 		}).addTo(map);
 		<? foreach($facilities) { ?>

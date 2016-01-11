@@ -5,7 +5,9 @@
 body {
 	padding-top: 51px;
 }
-
+.grey {
+	color: #c0c0c0;
+}
 .overlay {
 	position: absolute;
 
