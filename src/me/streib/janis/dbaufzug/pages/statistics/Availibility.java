@@ -105,7 +105,7 @@ public class Availibility extends StatisticOutputable {
 
 	public static JSONArray flipArray(JSONArray in) {
 		JSONArray res = new JSONArray();
-		for (int i = in.length() - 1; i > 0; i--) {
+		for (int i = in.length() - 1; i >= 0; i--) {
 			res.put(in.get(i));
 		}
 		return res;
