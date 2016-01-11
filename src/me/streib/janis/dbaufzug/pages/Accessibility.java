@@ -28,18 +28,39 @@ public class Accessibility extends Page {
 		PreparedStatement prep = DatabaseConnection
 				.getInstance()
 				.prepare(
-						"SELECT stations.name, facilities.locationlat as lat, facilities.locationlong as `long` FROM stations LEFT JOIN facilities on stations.id=facilities.station LEFT JOIN stats on facilities.id=stats.facility WHERE stats.state='INACTIVE' AND stats.time=(SELECT MAX(time) FROM stats) ORDER BY stations.name");
+						"SELECT stations.name, stations.bl, facilities.locationlat as lat, facilities.locationlong as `long` FROM stations LEFT JOIN facilities on stations.id=facilities.station LEFT JOIN stats on facilities.id=stats.facility WHERE stats.state='INACTIVE' AND stats.time=(SELECT MAX(time) FROM stats) ORDER BY stations.bl, stations.name");
 		final ResultSet res = prep.executeQuery();
 		res.beforeFirst();
 		vars.put("brokens", new IterableDataset() {
+			String currentBl;
 
 			@Override
 			public boolean next(Map<String, Object> vars) {
 				try {
 					if (res.next()) {
-						vars.put("name", res.getString("name"));
-						vars.put("lat", res.getDouble("lat"));
-						vars.put("long", res.getDouble("long"));
+						currentBl = res.getString("bl");
+						vars.put("bl", currentBl);
+						res.previous();
+						vars.put("bllist", new IterableDataset() {
+
+							@Override
+							public boolean next(Map<String, Object> vars) {
+								try {
+									if (res.next()
+											&& currentBl.equals(res
+													.getString("bl"))) {
+										vars.put("name", res.getString("name"));
+										vars.put("lat", res.getDouble("lat"));
+										vars.put("long", res.getDouble("long"));
+										return true;
+									}
+									res.previous();
+								} catch (SQLException e) {
+									e.printStackTrace();
+								}
+								return false;
+							}
+						});
 						return true;
 					}
 					res.close();

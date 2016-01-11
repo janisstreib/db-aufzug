@@ -1,10 +1,13 @@
 <div class="container">
 <h1>Bahnhöfe mit u.ust. eingeschränkter Barrierefreiheit</h1>
-<ul>
 <? foreach($brokens) { ?>
+<h2><?=$bl?></h2>
+<? foreach($bllist) { ?>
+<ul>
 <li><a href="/?lat=<?=$lat?>&lng=<?=$long?>&zoom=18"><?=$name?></a></li>
 <? } ?>
 </ul>
+<? } ?>
 </div>
 <hr/>
 <p class="grey">Station/Elevator data: Deutsche Bahn, CC-BY 4.0</p>
