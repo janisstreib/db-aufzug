@@ -17,12 +17,7 @@ function getLocation() {
         navigator.geolocation.getCurrentPosition(showPosition);
     }
   }
-function possub() {
-$.get("/search?query="+$('#query').val(), function(data) {
-alert(data);
-});
-return false;
-}
+
 function getQueryVariable(variable) {
   var query = window.location.search.substring(1);
   var vars = query.split("&");
@@ -67,4 +62,10 @@ function getQueryVariable(variable) {
 		function showPosition(position) {
  map.panTo(new L.LatLng(osition.coords.latitude, position.coords.longitude));
 }
+		function possub() {
+			$.get("/search?query="+$('#query').val(), function(data) {
+				//alert(data[0].lat);
+				map.setView([data[0].lat, data[0].lon], 16);
+			}, "json");return false;
+		}
 	</script>
