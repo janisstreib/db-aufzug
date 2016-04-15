@@ -2,6 +2,7 @@ package me.streib.janis.dbaufzug.pages;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -18,48 +19,54 @@ import org.json.JSONException;
 
 public class MainPage extends Page {
 
-	public MainPage() {
-		super("Karte");
-	}
+    public MainPage() {
+        super("Karte");
+    }
 
-	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp,
-			Map<String, Object> vars) throws IOException, JSONException,
-			SQLException {
-		LinkedList<Facility> facilities = Facility.getAllFacilities();
-		int up = 0;
-		int facs = facilities.size();
-		for (Facility facility : facilities) {
-			if (facility.getState() == State.ACTIVE)
-				up++;
-		}
-		vars.put("facilities", new IterableDataset() {
-			int i = 0;
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp,
+            Map<String, Object> vars) throws IOException, JSONException,
+            SQLException {
+        LinkedList<Facility> facilities = Facility.getAllFacilities();
+        int up = 0;
+        int facs = facilities.size();
+        Iterator<Facility> iter = facilities.iterator();
+        while (iter.hasNext()) {
+            Facility facility = iter.next();
+            if (facility.getLocation().getLat() == -1
+                    || facility.getLocation().getLongi() == -1) {
+                iter.remove();
+            }
+            if (facility.getState() == State.ACTIVE) {
+                up++;
+            }
+        }
+        vars.put("facilities", new IterableDataset() {
 
-			@Override
-			public boolean next(Map<String, Object> vars) {
-				if (facilities.isEmpty())
-					return false;
-				Facility fac = facilities.removeFirst();
-				vars.put("type", fac.getClass().getSimpleName());
-				LocationLatLong loc = fac.getLocation();
-				vars.put("lat", loc.getLat());
-				vars.put("long", loc.getLongi());
-				vars.put("state", fac.getState().name().toLowerCase());
-				vars.put("descr", fac.getDescription());
-				i++;
-				return true;
-			}
-		});
+            @Override
+            public boolean next(Map<String, Object> vars) {
+                if (facilities.isEmpty()) {
+                    return false;
+                }
+                Facility fac = facilities.removeFirst();
+                vars.put("type", fac.getClass().getSimpleName());
+                LocationLatLong loc = fac.getLocation();
+                vars.put("lat", loc.getLat());
+                vars.put("long", loc.getLongi());
+                vars.put("state", fac.getState().name().toLowerCase());
+                vars.put("descr", fac.getDescription());
+                return true;
+            }
+        });
 
-		vars.put("percents", (facs / 100f) * up);
-		vars.put("amount", facs);
-		getDefaultTemplate().output(resp.getWriter(), vars);
-	}
+        vars.put("percents", (facs / 100f) * up);
+        vars.put("amount", facs);
+        getDefaultTemplate().output(resp.getWriter(), vars);
+    }
 
-	@Override
-	public boolean needsTemplate() {
-		return true;
-	}
+    @Override
+    public boolean needsTemplate() {
+        return true;
+    }
 
 }
