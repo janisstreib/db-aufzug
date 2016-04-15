@@ -14,7 +14,7 @@ public class LocationLatLong {
     private double lat = -1, longi = -1;
 
     public LocationLatLong(JSONObject jsObject) {
-        if (!(jsObject.isNull("geocoordX") || !jsObject.isNull("geocoordX"))) {
+        if (!(jsObject.isNull("geocoordX") || jsObject.isNull("geocoordX"))) {
             lat = jsObject.getDouble("geocoordY");
             longi = jsObject.getDouble("geocoordX");
         }
