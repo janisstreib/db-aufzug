@@ -28,7 +28,7 @@ public class Accessibility extends Page {
 		PreparedStatement prep = DatabaseConnection
 				.getInstance()
 				.prepare(
-						"SELECT stations.name, stations.bl, facilities.locationlat as lat, facilities.locationlong as `long` FROM stations LEFT JOIN facilities on stations.id=facilities.station LEFT JOIN stats on facilities.id=stats.facility WHERE stats.state='INACTIVE' AND stats.time=(SELECT MAX(time) FROM stats) ORDER BY stations.bl, stations.name");
+						"SELECT stations.name, stations.bl, facilities.locationlat as lat, facilities.locationlong as `long` FROM stations LEFT JOIN facilities on stations.id=facilities.station LEFT JOIN stats on facilities.id=stats.facility WHERE stats.state='INACTIVE' AND stats.time=(SELECT MAX(time) FROM stats) GROUP by station ORDER BY stations.bl, stations.name");
 		final ResultSet res = prep.executeQuery();
 		res.beforeFirst();
 		vars.put("brokens", new IterableDataset() {
