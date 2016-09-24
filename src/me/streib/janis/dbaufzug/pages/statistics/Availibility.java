@@ -66,7 +66,7 @@ public class Availibility extends StatisticOutputable {
 				elev.close();
 
 				prep.setLong(1, time);
-				prep.setString(2, "ELEVATOR");
+				prep.setString(2, "ESCALATOR");
 				ResultSet esc = prep.executeQuery();
 				int activEsc = 0;
 				int inactiveEsc = 0;
@@ -74,12 +74,12 @@ public class Availibility extends StatisticOutputable {
 				esc.beforeFirst();
 				while (esc.next()) {
 					if (State.ACTIVE.name().equals(esc.getString("state"))) {
-						activElev = esc.getInt(2);
+						activEsc = esc.getInt(2);
 					} else if (State.INACTIVE.name().equals(
 							esc.getString("state"))) {
-						inactiveElev = esc.getInt(2);
+						inactiveEsc = esc.getInt(2);
 					} else {
-						unknownElev = esc.getInt(2);
+						unknownEsc = esc.getInt(2);
 					}
 				}
 				escDataActive.put(activEsc);
