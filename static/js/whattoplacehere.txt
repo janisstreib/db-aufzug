@@ -6,3 +6,4 @@ chart.js
 date.format.js
 highcharts.js
 exporting.js (highcharts module)
+leaflet.markercluster.js

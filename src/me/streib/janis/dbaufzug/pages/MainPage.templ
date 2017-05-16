@@ -11,6 +11,7 @@
 </div>
 <div id="map" class="half"></div>
 <script src="static/js/leaflet.js"></script>
+<script src="static/js/leaflet.markercluster.js"></script>
 <script>
 function getLocation() {
     if (navigator.geolocation) {
@@ -49,11 +50,11 @@ function getQueryVariable(variable) {
 			attribution: 'Station/Elevator data: Deutsche Bahn, CC-BY 4.0 | Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, ' +
 				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
 		}).addTo(map);
+		var markers = L.markerClusterGroup();
 		<? foreach($facilities) { ?>
-		L.marker([<?=$lat?>, <?=$long?>], {icon: <?=$state?>}).addTo(map)
-			.bindPopup('<b><?=$type?> - <?=$state?></b><br/><?=$descr?>');
+		markers.addLayer(L.marker([<?=$lat?>, <?=$long?>], {icon: <?=$state?>}).bindPopup('<b><?=$type?> - <?=$state?></b><br/><?=$descr?>'));
 			<? } ?>
-		
+		map.addLayer(markers);
 		map.addEventListener('resize moveend', function updateUrl(e) {
 			window.history.pushState(null,"","/?lat="+map.getCenter().lat+"&lng="+map.getCenter().lng+"&zoom="+map.getZoom());
 			
